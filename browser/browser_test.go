@@ -211,3 +211,22 @@ func TestCookieHeader(t *testing.T) {
 		t.Errorf("CookieHeader(nil) = %q, want empty", got)
 	}
 }
+
+func TestCookieAppliesTo(t *testing.T) {
+	cases := []struct {
+		domain, host string
+		want         bool
+	}{
+		{".immobiliare.it", "www.immobiliare.it", true},
+		{".immobiliare.it", "immobiliare.it", true},
+		{"www.immobiliare.it", "www.immobiliare.it", true},
+		{"www.immobiliare.it", "api.immobiliare.it", false},
+		{".immobiliare.it", "evilimmobiliare.it", false},
+		{".other.com", "www.immobiliare.it", false},
+	}
+	for _, c := range cases {
+		if got := cookieAppliesTo(c.domain, c.host); got != c.want {
+			t.Errorf("cookieAppliesTo(%q, %q) = %v, want %v", c.domain, c.host, got, c.want)
+		}
+	}
+}
