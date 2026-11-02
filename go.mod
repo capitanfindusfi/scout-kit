@@ -1,4 +1,4 @@
-module github.com/am95dev/scout-kit
+module github.com/capitanfindusfi/scout-kit
 
 go 1.27.1
 
